@@ -1,0 +1,1 @@
+Serie of mini project that follow STM32 Bare Metal Programming serie on https://vivonomicon.com/
