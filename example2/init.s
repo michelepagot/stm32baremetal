@@ -8,23 +8,27 @@
 .global vectortable
 .global reset_func
 
+.section  .isr_vector,"a",%progbits
 .type vectortable, %object
+.size vectortable, .-vectortable
 // Page 201 of STM32F411CEU6_ReferenceManual
 vectortable:
      .word _estack
      .word reset_func
-.size vectortable, .-vectortable
+
 
 
 
 /*  * The Reset handler. Called on reset.  */
+.section  .text.reset_func
+.weak  reset_func
 .type reset_func, %function
 
 reset_func:
    // Set the stack pointer to the end of the stack.
    // The '_estack' value is defined in our linker script.
-   LDR  r0, =_estack
-   MOV  sp, r0
+   LDR  sp, =_estack
+
 
    // Set some dummy values. When we see these values
    // in our debugger, we'll know that our program

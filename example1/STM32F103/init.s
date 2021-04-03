@@ -29,7 +29,10 @@ reset_func:
    // Set some dummy values. When we see these values
    // in our debugger, we'll know that our program
    // is loaded on the chip and working.
-   LDR  r7, =0xDEADBEEF
+   LDR  r6, =0xDEADBEE6
+   LDR  r7, =0xDEADBEE7
+   LDR  r8, =0xDEADBEE8
+   LDR  r9, =0xDEADBEE9
    MOVS r0, #0
    main_loop:
      // Add 1 to register 'r0'.

@@ -1,7 +1,7 @@
 Directly inspired by greate article at https://vivonomicon.com/2018/04/02/bare-metal-stm32-programming-part-1-hello-arm/
-It is an attempt to port original article code to STM32F103x
+It is an attempt to port original article code to STM32F411x
 
-It is a Cortex-M3 with  128KB Flash and 20KB RAM
+It is a Cortex4 with  512KB Flash and 128KB RAM
 
 Build it with:
 
@@ -10,7 +10,11 @@ Build it with:
 Start the debug server with:
 
     > st-util
-    
+    st-util
+    libusb: warning [enumerate_hcd_root_hub] could not infer VID/PID of HCD root hub from 'ROOT\NXUSBH\0000'
+    libusb: warning [winusb_get_device_list] could not retrieve port number for device 'NXUSBS\DEVICES\0000': [13] The data is invalid.
+    2021-04-01T01:46:18 INFO common.c: stm32f411re: 128 KiB SRAM, 512 KiB flash in at least 16 KiB pages.
+    2021-04-01T01:46:18 INFO gdb-server.c: Listening at *:4242...
 
 connect with dbg, load and run the code:
 
@@ -27,8 +31,8 @@ connect with dbg, load and run the code:
     For bug reporting instructions, please see:
     <https://www.gnu.org/software/gdb/bugs/>.
     Find the GDB manual and other documentation resources online at:
-    <http://www.gnu.org/software/gdb/documentation/>.
-
+        <http://www.gnu.org/software/gdb/documentation/>.
+    
     For help, type "help".
     Type "apropos word" to search for commands related to "word"...
     Reading symbols from main.elf...
@@ -38,27 +42,31 @@ connect with dbg, load and run the code:
     (gdb) load
     Loading section .text, size 0x1c lma 0x8000000
     Start address 0x08000000, load size 28
-    Transfer rate: 250 bytes/sec, 28 bytes/write.
+    Transfer rate: 46 bytes/sec, 28 bytes/write.
     (gdb) c
     Continuing.
     
     Program received signal SIGTRAP, Trace/breakpoint trap.
     0xfffffffe in ?? ()
     (gdb) info registers
-    r0             0x81d5a4            8508836
+    r0             0x1cd5a4            1889700
     r1             0x0                 0
-    r2             0x902940            9447744
+    r2             0x8d5890            9263248
     r3             0x0                 0
     r4             0x0                 0
-    r5             0x40022000          1073881088
-    r6             0x4002200c          1073881100
-    r7             0x40022010          1073881104
+    r5             0x0                 0
+    r6             0x0                 0
+    r7             0x0                 0
     r8             0xdeadbeef          3735928559
-    r9             0x7ff8fffd          2147024893
-    r10            0xfffffedc          4294967004
-    r11            0xeda8de17          3987267095
-    r12            0x8a556fc6          2320854982
-    sp             0x3e                0x3e
+    r9             0x0                 0
+    r10            0x0                 0
+    r11            0x0                 0
+    r12            0x0                 0
+    sp             0x0                 0x0
     lr             0x20020000          537001984
     pc             0xffffffff          0xffffffff
     cpsr           0x1000000           16777216
+
+
+
+And yes the DeadBeef is in R8 and not R7 as expected ... why?

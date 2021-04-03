@@ -7,7 +7,7 @@ Build it with:
 
     build.bat
 
-Start the debug server with:
+Start the debug server with https://github.com/stlink-org/stlink/releases/tag/v1.6.1:
 
     > st-util
     st-util
@@ -49,24 +49,54 @@ connect with dbg, load and run the code:
     Program received signal SIGTRAP, Trace/breakpoint trap.
     0xfffffffe in ?? ()
     (gdb) info registers
-    r0             0x1cd5a4            1889700
+    r0             0x74                116
     r1             0x0                 0
-    r2             0x8d5890            9263248
+    r2             0x93bfb0            9682864
     r3             0x0                 0
     r4             0x0                 0
     r5             0x0                 0
     r6             0x0                 0
-    r7             0x0                 0
-    r8             0xdeadbeef          3735928559
-    r9             0x0                 0
-    r10            0x0                 0
+    r7             0xdeadbee6          3735928550
+    r8             0xdeadbee7          3735928551
+    r9             0xdeadbee8          3735928552
+    r10            0xdeadbee9          3735928553
     r11            0x0                 0
     r12            0x0                 0
     sp             0x0                 0x0
-    lr             0x20020000          537001984
+    lr             0x20018000          536969216
     pc             0xffffffff          0xffffffff
     cpsr           0x1000000           16777216
 
 
 
 And yes the DeadBeef is in R8 and not R7 as expected ... why?
+
+Using openocd  OpenOCD-20210301-0.10.0 there's no issue:
+    > openocd -f scripts\interface\stlink-v2.cfg -f scripts\target\stm32f4x.cfg
+    > arm-none-eabi-gdb main.elf -ex="target extended-remote :3333"
+    ...
+    (gdb) info registers
+    r0             0x8f80e7            9404647
+    r1             0x0                 0
+    r2             0x0                 0
+    r3             0x0                 0
+    r4             0x0                 0
+    r5             0x0                 0
+    r6             0xdeadbee6          -559038746
+    r7             0xdeadbee7          -559038745
+    r8             0xdeadbee8          -559038744
+    r9             0xdeadbee9          -559038743
+    r10            0x0                 0
+    r11            0x0                 0
+    r12            0x0                 0
+    sp             0x20018000          0x20018000
+    lr             0xffffffff          -1
+    pc             0x800001a           0x800001a <reset_func+18>
+    xPSR           0x1000000           16777216
+    fpscr          0x0                 0
+    msp            0x20018000          0x20018000
+    psp            0x0                 0x0
+    primask        0x0                 0
+    basepri        0x0                 0
+    faultmask      0x0                 0
+    control        0x0                 0
