@@ -72,6 +72,7 @@ connect with dbg, load and run the code:
 And yes the DeadBeef is in R8 and not R7 as expected ... why?
 
 Using openocd  OpenOCD-20210301-0.10.0 there's no issue:
+
     > openocd -f scripts\interface\stlink-v2.cfg -f scripts\target\stm32f4x.cfg
     > arm-none-eabi-gdb main.elf -ex="target extended-remote :3333"
     ...
